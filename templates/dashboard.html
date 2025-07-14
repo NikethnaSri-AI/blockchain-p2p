@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blockchain Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f4f6f9;
+      padding: 2rem;
+    }
+    .btn {
+      margin-bottom: 1rem;
+    }
+    pre {
+      background-color: #fff;
+      padding: 1rem;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      max-height: 400px;
+      overflow-y: scroll;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4 text-primary">Blockchain Node Dashboard</h1>
+    
+    <div>
+      <button class="btn btn-success" onclick="mineBlock()">Mine Block</button>
+      <button class="btn btn-warning" onclick="replaceChain()">Replace Chain</button>
+    </div>
+
+    <h4>Blockchain</h4>
+    <pre id="chainOutput">Loading...</pre>
+  </div>
+
+  <script>
+    async function loadChain() {
+      const res = await fetch('/get_chain');
+      const data = await res.json();
+      document.getElementById('chainOutput').innerText = JSON.stringify(data, null, 2);
+    }
+
+    async function mineBlock() {
+      await fetch('/mine');
+      loadChain();
+    }
+
+    async function replaceChain() {
+      await fetch('/replace_chain');
+      loadChain();
+    }
+
+    loadChain();
+  </script>
+</body>
+</html>
+ 
